@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:31:26 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/01/16 16:31:20 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:52:04 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ long long	getCurrentTimeMillis(void)
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return ((long long)(tv.tv_usec) / 1000);
+	return ((long long)(tv.tv_usec) / 100);
 }
 
 void	*threadFunction(void *arg)
@@ -50,7 +50,7 @@ void	*threadFunction(void *arg)
 	threadNumber = (long)arg;
 	timestamp = getCurrentTimeMillis();
 	pthread_mutex_lock(&printMutex);
-	printf("[%lld ms] Philospher %ld is eating\n", timestamp, threadNumber);
+	printf("[%lld ms] - %ld is eating\n", timestamp, threadNumber);
 	pthread_mutex_unlock(&printMutex);
 	return NULL;
 }
