@@ -6,13 +6,12 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:31:26 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/01/16 15:36:28 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:31:20 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-pthread_mutex_t	printMutex = PTHREAD_MUTEX_INITIALIZER;
 
 int	main(int argc, char **argv)
 {
@@ -44,16 +43,16 @@ long long	getCurrentTimeMillis(void)
 
 void	*threadFunction(void *arg)
 {
+	pthread_mutex_t	printMutex = PTHREAD_MUTEX_INITIALIZER;
 	long		threadNumber;
 	long long	timestamp;
 
 	threadNumber = (long)arg;
 	timestamp = getCurrentTimeMillis();
 	pthread_mutex_lock(&printMutex);
-	printf("[%lld ms] Thread %ld is eating\n", timestamp, threadNumber);
+	printf("[%lld ms] Philospher %ld is eating\n", timestamp, threadNumber);
 	pthread_mutex_unlock(&printMutex);
-	return (void *) 0;
-	//pthread_exit(NULL);
+	return NULL;
 }
 
 void	ft_threads(long nb)
@@ -64,26 +63,19 @@ void	ft_threads(long nb)
 	i = 1;
 	threads = malloc(nb * sizeof(pthread_t));
 	if (!threads)
-	{
-		printf("malloc failled\n");
 		return ;
-	}
 	while (i <= nb)
 	{
 		if (pthread_create(&threads[i - 1], NULL, threadFunction,
 				(void *)i) != 0)
-		{
-			fprintf(stderr, "Error creating thread %ld\n", i);
-			free(threads);
-			return ;
-		}
+			return (free(threads));
 		i++;
 	}
 	i = 1;
 	while (i <= nb)
 	{
 		if (pthread_join(threads[i - 1], NULL) != 0)
-			fprintf(stderr, "Error joining thread %ld\n", i);
+			printf("Error joining thread %ld\n", i);
 		i++;
 	}
 	printf("Main: All threads have finished\n");
