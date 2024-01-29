@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:29:52 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/01/16 16:47:13 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:29:12 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,19 @@ typedef struct s_philo
 typedef struct s_table
 {
 	t_philo	*philosopher;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
+	int		nb_philosophers;
+	int		t_die;
+	int		t_eat;
+	int		t_sleep;
 	int		nb_must;
+	int		i;
+	pthread_mutex_t	printMutex;
 }			t_table;
 
 long int	ft_atoi(const char *str);
 int			ft_int(const char *str);
-void		ft_threads(long nb);
+void		initializeTable(t_table *table, int nb_philo, int t_die, int t_eat,
+				int t_sleep);
+void		ft_threads(t_table *table);
 
 #endif
