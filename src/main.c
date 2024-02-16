@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:31:26 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/01/30 14:38:35 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:29:13 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,13 @@ int	main(int argc, char **argv)
 		{
 			if (ft_int(argv[i]) != 0 || ft_atoi(argv[i]) < 0)
 				return (1);
+			init_philo();
 			i++;
 		}
-		if (argc == 6)
-			table.nb_must = atoi(argv[5]);
-		initializeTable(&table, ft_atoi(argv[1]), ft_atoi(argv[2]),
-				ft_atoi(argv[3]), ft_atoi(argv[4]));
 		ft_threads(&table);
 	}
 	else
 		return (1);
-	free(table.philosopher);
+	// free(table.philosopher);
 	return (0);
 }

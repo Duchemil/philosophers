@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:05:51 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/01/30 16:12:25 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:42:37 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ void	init_philo(t_philo *philos, t_table *table, pthread_mutex_t *forks,
 		init_input(&philos[i], argv);
 		philos[i].last_ate = get_current_time();
 		philos[i].start_time = get_current_time();
+		if (i == 0)
+			philos[i].r_fork = &forks[philos[i].nb_philo - 1];
+		else
+			philos[i].r_fork = &forks[i - 1];
 	}
 }
 
@@ -40,4 +44,25 @@ void	init_input(t_philo *philo, char **argv)
 		philo->nb_must = (argv[5]);
 	else
 		philo->nb_must = -1;
+}
+
+void	init_table(t_table *table, t_philo *philos)
+{
+	table->philos = philos;
+	table-> dead = 0;
+	pthread_mutex_init(&table->think_mut, NULL);
+	pthread_mutex_init(&table->eat_mut, NULL);
+	pthread_mutex_init(&table->dead_mut, NULL);
+}
+
+void init_forks(pthread_mutex_t *forks, int philo_nb)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo_nb)
+	{
+		pthread_mutex_init(&forks[i], NULL);
+		i++;
+	}
 }
