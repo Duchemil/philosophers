@@ -1,6 +1,6 @@
-CC = gcc -pthread
+CC = gcc -pthread -g3
 CFLAGS = -Wall -Werror -Wextra
-SRC = src/main.c src/utils.c
+SRC = src/main.c src/utils.c src/init.c src/actions.c src/threads.c
 OBJ = $(SRC:.c=.o)
 NAME = philosophers
 

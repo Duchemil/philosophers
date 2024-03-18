@@ -6,105 +6,77 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:31:26 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/02/16 14:29:13 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:57:57 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-// void	initializeTable(t_table *table, int nb_philo, int t_die, int t_eat,
-// 		int t_sleep)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	table->philos= malloc(nb_philo * sizeof(t_philo));
-// 	if (!table->philos)
-// 		return ;
-// 	table->t_die = t_die;
-// 	table->t_eat = t_eat;
-// 	table->t_sleep = t_sleep;
-// 	table->nb_philosophers = nb_philo;
-// 	while (i < table->nb_philosophers)
-// 	{
-// 		table->philosopher[i].is_eating = 0;
-// 		table->philosopher[i].is_sleeping = 0;
-// 		table->philosopher[i].is_thinking = 0;
-// 		table->philosopher[i].is_dead = 0;
-// 		table->philosopher[i].last_ate = 0;
-// 		i++;
-// 	}
-// }
-
-void	*threadFunction(void *arg)
+int	check_input_validity(int argc, char **argv)
 {
-	long				i;
-	pthread_mutex_t	printMutexx;
-	long long		timestamp;
+	int	nb_philo;
+	int	t_die;
+	int	t_eat;
+	int	t_sleep;
+	int	nb_must;
 
-	i = (long) arg;
-	pthread_mutex_init(&printMutexx, NULL);
-	timestamp = getCurrentTimeMillis();
-	pthread_mutex_lock(&printMutexx);
-	printf("[%lld ms] - %ld is eating\n", timestamp, i);
-	pthread_mutex_unlock(&printMutexx);
-	pthread_mutex_destroy(&printMutexx);
-	return (NULL);
+	nb_philo = ft_atoi(argv[1]);
+	t_die = ft_atoi(argv[2]);
+	t_eat = ft_atoi(argv[3]);
+	t_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		nb_must = ft_atoi(argv[5]);
+	else
+		nb_must = 1;
+	if (nb_philo <= 0 || t_die <= 0 || t_eat <= 0 || t_sleep <= 0 || (nb_must !=
+			-1 && nb_must <= 0))
+	{
+		printf("Args' numbers aren't correct");
+		return (1);
+	}
+	return (0);
 }
 
-// void	ft_threads(t_table *table)
+// void	*threadFunction(void *arg)
 // {
-// 	pthread_t	*threads;
-// 	long	i;
+// 	long			i;
+// 	pthread_mutex_t	printMutexx;
+// 	long long		timestamp;
 
-// 	i = 1;
-// 	threads = malloc(table->nb_philosophers * sizeof(pthread_t));
-// 	if (!threads)
-// 		return ;
-// 	pthread_mutex_init(&table->printMutex, NULL);
-// 	while (i <= table->nb_philosophers)
-// 	{
-// 		if (pthread_create(&threads[i - 1], NULL, threadFunction,
-// 				(void *)i) != 0)
-// 			return (free(threads));
-// 		pthread_mutex_lock(&table->printMutex);
-// 		i++;
-// 		pthread_mutex_unlock(&table->printMutex);
-// 		usleep(500);
-// 	}
-// 	i = 1;
-// 	while (i <= table->nb_philosophers)
-// 	{
-// 		if (pthread_join(threads[i - 1], NULL) != 0)
-// 			printf("Error joining thread %ld\n", i);
-// 		pthread_mutex_lock(&table->printMutex);
-// 		i++;
-// 		pthread_mutex_unlock(&table->printMutex);
-// 	}
-// 	printf("Main: All threads have finished\n");
-// 	pthread_mutex_destroy(&table->printMutex);
-// 	free(threads);
+// 	i = (long)arg;
+// 	pthread_mutex_init(&printMutexx, NULL);
+// 	timestamp = get_current_time();
+// 	pthread_mutex_lock(&printMutexx);
+// 	printf("[%lld ms] - %ld is eating\n", timestamp, i);
+// 	pthread_mutex_unlock(&printMutexx);
+// 	pthread_mutex_destroy(&printMutexx);
+// 	return (NULL);
 // }
 
 int	main(int argc, char **argv)
 {
-	int		i;
-	t_table	*table;
+	int				i;
+	t_table			table;
+	pthread_mutex_t *forks;
 
 	i = 1;
 	if (argc == 5 || argc == 6)
 	{
+		if (check_input_validity(argc, argv) == 1)
+			return (1);
+		table.philos = (t_philo *)malloc(sizeof(t_philo) * ft_atoi(argv[1]));
+		if (!table.philos)
+			return (1);
+		forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ft_atoi(argv[1]));
+		if (!forks)
+			return (1);
 		while (argv[i])
 		{
-			if (ft_int(argv[i]) != 0 || ft_atoi(argv[i]) < 0)
-				return (1);
-			init_philo();
+			init_philo(table.philos, &table, forks, argv);
 			i++;
 		}
-		ft_threads(&table);
+		free(table.philos);
+		free(forks);
 	}
-	else
-		return (1);
-	// free(table.philosopher);
 	return (0);
 }

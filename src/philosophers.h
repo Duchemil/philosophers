@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:29:52 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/02/16 14:40:27 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:31:47 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,24 @@ typedef struct s_philo
 	size_t			t_sleep;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*think_mut;
+	pthread_mutex_t	*eat_mut;
+	pthread_mutex_t	*dead_mut;
 }					t_philo;
 
 typedef struct s_table
 {
 	t_philo			*philos;
-	pthread_mutex_t	*think_mut;
-	pthread_mutex_t	*eat_mut;
-	pthread_mutex_t	*dead_mut;
+	pthread_mutex_t	think_mut;
+	pthread_mutex_t	eat_mut;
+	pthread_mutex_t	dead_mut;
 	int				dead;
 }					t_table;
 
 long int			ft_atoi(const char *str);
 int					ft_int(const char *str);
-void				initializeTable(t_table *table, int nb_philo, int t_die,
-						int t_eat, int t_sleep);
 void				ft_threads(t_table *table);
-long long			getCurrentTimeMillis(void);
+size_t				get_current_time(void);
 void				init_philo(t_philo *philos, t_table *table,
 						pthread_mutex_t *forks, char **argv);
 void				init_input(t_philo *philo, char **argv);
