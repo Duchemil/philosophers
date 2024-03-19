@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:31:26 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/18 16:57:57 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:39:22 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	main(int argc, char **argv)
 			init_philo(table.philos, &table, forks, argv);
 			i++;
 		}
+		create_threads(&table, forks);
 		free(table.philos);
 		free(forks);
 	}

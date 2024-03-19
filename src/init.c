@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:05:51 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/18 16:35:41 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:38:33 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	init_philo(t_philo *philos, t_table *table, pthread_mutex_t *forks,
 		philos[i].start_time = get_current_time();
 		philos[i].dead_mut = &table->dead_mut;
 		philos[i].eat_mut = &table->eat_mut;
-		philos[i].think_mut = &table->think_mut;
+		philos[i].write_mut = &table->write_mut;
 		philos[i].l_fork = &forks[i];
 		if (i == 0)
 			philos[i].r_fork = &forks[philos[i].nb_philo - 1];
@@ -55,7 +55,7 @@ void	init_table(t_table *table, t_philo *philos)
 {
 	table->philos = philos;
 	table->dead = 0;
-	pthread_mutex_init(&table->think_mut, NULL);
+	pthread_mutex_init(&table->write_mut, NULL);
 	pthread_mutex_init(&table->eat_mut, NULL);
 	pthread_mutex_init(&table->dead_mut, NULL);
 }

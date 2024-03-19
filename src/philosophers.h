@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:29:52 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/18 16:31:47 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:38:25 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_philo
 	size_t			t_sleep;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*think_mut;
+	pthread_mutex_t	*write_mut;
 	pthread_mutex_t	*eat_mut;
 	pthread_mutex_t	*dead_mut;
 }					t_philo;
@@ -46,7 +46,7 @@ typedef struct s_philo
 typedef struct s_table
 {
 	t_philo			*philos;
-	pthread_mutex_t	think_mut;
+	pthread_mutex_t	write_mut;
 	pthread_mutex_t	eat_mut;
 	pthread_mutex_t	dead_mut;
 	int				dead;
@@ -56,6 +56,7 @@ long int			ft_atoi(const char *str);
 int					ft_int(const char *str);
 void				ft_threads(t_table *table);
 size_t				get_current_time(void);
+int				create_threads(t_table *table, pthread_mutex_t *forks);
 void				init_philo(t_philo *philos, t_table *table,
 						pthread_mutex_t *forks, char **argv);
 void				init_input(t_philo *philo, char **argv);
