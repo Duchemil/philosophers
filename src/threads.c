@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:00:51 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/19 17:39:21 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/21 16:01:54 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,17 @@ void	destroy_f(t_table *table, pthread_mutex_t *forks)
 void	*philo_steps(void *arg)
 {
 	t_philo *philo;
-	long time;
 
 	philo = (t_philo *) arg;
-	time = philo->start_time;
-
-	pthread_mutex_lock(&philo->write_mut);
-	printf("%ld - %d is twerking\n", get_current_time() - time , philo->id);
-	pthread_mutex_unlock(&philo->write_mut);
-	philo->last_ate = get_current_time();
-	return (NULL);
+	if (philo->id % 2 == 0)
+		usleep(1);
+	while (philo->is_dead == 0)
+	{
+		think(philo);
+		eat(philo);
+		ft_sleep(philo);
+	}
+	return (philo);
 }
 
 int	create_threads(t_table *table, pthread_mutex_t *forks)

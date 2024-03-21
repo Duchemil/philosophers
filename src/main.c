@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:31:26 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/19 13:39:22 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/21 16:00:00 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,23 @@ int	check_input_validity(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	int				i;
 	t_table			table;
+	t_philo			*philos;
 	pthread_mutex_t *forks;
 
-	i = 1;
 	if (argc == 5 || argc == 6)
 	{
 		if (check_input_validity(argc, argv) == 1)
 			return (1);
-		table.philos = (t_philo *)malloc(sizeof(t_philo) * ft_atoi(argv[1]));
+		philos = (t_philo *)malloc(sizeof(t_philo) * ft_atoi(argv[1]));
 		if (!table.philos)
 			return (1);
 		forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ft_atoi(argv[1]));
 		if (!forks)
 			return (1);
-		while (argv[i])
-		{
-			init_philo(table.philos, &table, forks, argv);
-			i++;
-		}
+		init_table(&table, philos);
+		init_forks(forks, ft_atoi(argv[1]));
+		init_philo(table.philos, &table, forks, argv);
 		create_threads(&table, forks);
 		free(table.philos);
 		free(forks);

@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:29:52 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/19 17:38:25 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:43:48 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,14 @@ long int			ft_atoi(const char *str);
 int					ft_int(const char *str);
 void				ft_threads(t_table *table);
 size_t				get_current_time(void);
-int				create_threads(t_table *table, pthread_mutex_t *forks);
+int					create_threads(t_table *table, pthread_mutex_t *forks);
 void				init_philo(t_philo *philos, t_table *table,
 						pthread_mutex_t *forks, char **argv);
 void				init_input(t_philo *philo, char **argv);
 void				init_table(t_table *table, t_philo *philos);
 void				init_forks(pthread_mutex_t *forks, int philo_nb);
-
+void				print_m(char *str, t_philo *philo);
+void				think(t_philo *philo);
+void				ft_sleep(t_philo *philo);
+void				eat(t_philo *philo);
 #endif
