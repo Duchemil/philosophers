@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:00:51 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/21 16:01:54 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:25:59 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	*philo_steps(void *arg)
 
 	philo = (t_philo *) arg;
 	if (philo->id % 2 == 0)
-		usleep(1);
-	while (philo->is_dead == 0)
+		usleep((philo->t_eat + 10) * 1000);
+	while (!dead_while(philo))
 	{
 		think(philo);
 		eat(philo);
@@ -43,15 +43,28 @@ void	*philo_steps(void *arg)
 	return (philo);
 }
 
+void	*checks_philos(void *arg)
+{
+	t_philo *philos;
+
+	philos = (t_philo *) arg;
+	while (1)
+		if (check_if_dead(philos) == 1)
+			break ;
+	return (philos);
+}
+
 int	create_threads(t_table *table, pthread_mutex_t *forks)
 {
+	pthread_t checks;
 	long		i;
 
+	if (pthread_create(&checks, NULL, &checks_philos, table->philos) != 0)
+		destroy_f(table, forks);
 	i = 0;
-	// if (pthread_create(threads, NULL, philo_steps, &table->philos) != 0)
 	while (i < table->philos[0].nb_philo)
 	{
-		if (pthread_create(&table->philos[i].thread, NULL, philo_steps,
+		if (pthread_create(&table->philos[i].thread, NULL, &philo_steps,
 					&table->philos[i]) != 0)
 				destroy_f(table, forks);
 		i++;

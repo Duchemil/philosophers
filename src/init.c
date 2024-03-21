@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:05:51 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/21 16:00:56 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:33:54 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	init_philo(t_philo *philos, t_table *table, pthread_mutex_t *forks,
 		philos[i].is_dead = 0;
 		philos[i].meals_eaten = 0;
 		init_input(&philos[i], argv);
-		philos[i].last_ate = get_current_time();
 		philos[i].start_time = get_current_time();
+		philos[i].last_ate = get_current_time();
 		philos[i].dead_mut = &table->dead_mut;
 		philos[i].eat_mut = &table->eat_mut;
 		philos[i].write_mut = &table->write_mut;

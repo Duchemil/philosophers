@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:06:42 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/21 15:46:20 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:23:58 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	print_m(char *str, t_philo *philo)
 {
 	pthread_mutex_lock(philo->write_mut);
-	printf("%ld - %d %s\n", get_current_time() - philo->start_time , philo->id, str);
+	if (!dead_while(philo))
+		printf("%ld - %d %s\n", get_current_time() - philo->start_time , philo->id, str);
 	pthread_mutex_unlock(philo->write_mut);
 }
 
@@ -37,12 +38,14 @@ void eat(t_philo *philo)
 	print_m("has taken a fork", philo);
 	pthread_mutex_lock(philo->l_fork);
 	print_m("has taken a fork", philo);
-	philo->last_ate = get_current_time() - philo->start_time;
+	philo->is_eating = 1;
 	print_m("is eating", philo);
+	pthread_mutex_lock(philo->eat_mut);
+	philo->last_ate = get_current_time() - philo->start_time;
+	philo->meals_eaten++;
+	pthread_mutex_unlock(philo->eat_mut);
 	usleep(philo->t_eat * 1000);
-	philo->nb_must--;
+	philo->is_eating = 0;
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
-	// reset temps manger
-	// mange donc peut mourrir de faim pendant qu'il mange
 }

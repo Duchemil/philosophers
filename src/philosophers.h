@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:29:52 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/21 15:43:48 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:12:54 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,6 @@ void				print_m(char *str, t_philo *philo);
 void				think(t_philo *philo);
 void				ft_sleep(t_philo *philo);
 void				eat(t_philo *philo);
+int					dead_while(t_philo *philo);
+int					check_if_dead(t_philo *philos);
 #endif
