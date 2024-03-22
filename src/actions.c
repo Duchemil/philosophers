@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:06:42 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/22 16:38:48 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:46:12 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,27 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(philo->eat_mut);
 	philo->last_ate = get_current_time();
 	philo->meals_eaten++;
+	philo->is_eating = 0;
 	pthread_mutex_unlock(philo->eat_mut);
 	usleep(philo->t_eat * 1000);
+	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(philo->r_fork);
+}
+
+void	eat2(t_philo *philo)
+{
+	pthread_mutex_lock(philo->l_fork);
+	print_m("has taken a fork", philo);
+	pthread_mutex_lock(philo->r_fork);
+	print_m("has taken a fork", philo);
+	philo->is_eating = 1;
+	print_m("is eating", philo);
+	pthread_mutex_lock(philo->eat_mut);
+	philo->last_ate = get_current_time();
+	philo->meals_eaten++;
 	philo->is_eating = 0;
+	pthread_mutex_unlock(philo->eat_mut);
+	usleep(philo->t_eat * 1000);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
 }

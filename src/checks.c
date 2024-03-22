@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:49:36 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/22 16:14:28 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:28:50 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ int	check_if_ate(t_philo *philos)
 	{
 		pthread_mutex_lock(philos[i].eat_mut);
 		if (philos[i].meals_eaten >= philos[i].nb_must)
-		{
 			j++;
-		}
 		pthread_mutex_unlock(philos[i].eat_mut);
 		i++;
 	}

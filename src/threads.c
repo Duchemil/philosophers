@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:00:51 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/22 16:36:57 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:40:10 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void	*philo_steps(void *arg)
 		usleep((philo->t_eat + 10) * 1000);
 	while (!dead_while(philo))
 	{
-		eat(philo);
+		if (philo->id % 2 == 0)
+			eat2(philo);
+		else
+			eat(philo);
 		ft_sleep(philo);
 		think(philo);
 	}

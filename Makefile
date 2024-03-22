@@ -1,4 +1,4 @@
-CC = gcc -g3 -pthread
+CC = gcc -g3 -pthread # -fsanitize=thread
 CFLAGS = -Wall -Werror -Wextra
 SRC = src/main.c src/utils.c src/init.c src/actions.c src/threads.c src/checks.c
 OBJ = $(SRC:.c=.o)
