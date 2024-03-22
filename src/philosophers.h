@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:29:52 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/21 18:12:54 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:07:58 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				id;
 	int				is_eating;
-	int				is_dead;
+	int				*is_dead;
 	int				meals_eaten;
 	int				nb_must;
 	int				nb_philo;
@@ -54,7 +54,6 @@ typedef struct s_table
 
 long int			ft_atoi(const char *str);
 int					ft_int(const char *str);
-void				ft_threads(t_table *table);
 size_t				get_current_time(void);
 int					create_threads(t_table *table, pthread_mutex_t *forks);
 void				init_philo(t_philo *philos, t_table *table,
@@ -68,4 +67,6 @@ void				ft_sleep(t_philo *philo);
 void				eat(t_philo *philo);
 int					dead_while(t_philo *philo);
 int					check_if_dead(t_philo *philos);
+void				destroy_f(t_table *table, pthread_mutex_t *forks);
+int					check_if_ate(t_philo *philos);
 #endif
