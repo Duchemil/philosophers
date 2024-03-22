@@ -6,7 +6,7 @@
 /*   By: lduchemi <lduchemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:06:42 by lduchemi          #+#    #+#             */
-/*   Updated: 2024/03/22 16:14:19 by lduchemi         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:38:48 by lduchemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	think(t_philo *philo)
 
 void	ft_sleep(t_philo *philo)
 {
-	print_m("is sleeping", philo);
+	if (philo->nb_philo > 1)
+		print_m("is sleeping", philo);
 	usleep(philo->t_sleep * 1000);
 }
 
